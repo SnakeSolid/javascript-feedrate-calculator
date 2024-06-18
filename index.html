@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FeedRate Calculator</title>
+    <link rel="shortcut icon" type="image/png" href="static/favicon.png" />
+    <link rel="stylesheet" href="static/semantic.min.css" />
+    <style>
+      label.fixed-label {
+        width: 20rem !important;
+        text-align: right;
+      }
+    </style>
+    <script type="text/javascript" src="static/vue.global.min.js"></script>
+    <script
+      type="text/javascript"
+      src="static/script.js"
+      defer="defer"
+    ></script>
+  </head>
+  <body>
+    <div id="application" class="ui container">
+      <form class="ui form">
+        <p></p>
+        <h2>FeedRate Calculator</h2>
+
+        <div class="field">
+          <label>Материал</label>
+
+          <select class="ui fluid dropdown" v-model="selectedMaterial">
+            <option selected disabled value="">Выберите материал</option>
+            <option v-for="material in materials" :value="material">
+              {{ material.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="ui message" v-if="hasComment()">
+          {{ selectedMaterial.comment }}
+        </div>
+
+        <div class="inline field">
+          <label class="fixed-label">Скорость шпинделя (об/мин):</label>
+          <input
+            type="number"
+            min="1"
+            max="30000"
+            step="1000"
+            placeholder="10000"
+            v-model.number="spindleSpeed"
+          />
+        </div>
+
+        <div class="inline field">
+          <label class="fixed-label">Диаметр фрезы (мм):</label>
+          <input
+            type="number"
+            min="0.1"
+            max="100"
+            step="1"
+            placeholder="1"
+            v-model.number="cutterDiameter"
+          />
+        </div>
+
+        <div class="inline field">
+          <label class="fixed-label"
+            >Число заходов (режущих поверхностей):</label
+          >
+          <input
+            type="number"
+            min="1"
+            max="100"
+            step="1"
+            placeholder="3"
+            v-model.number="numberTeeth"
+          />
+        </div>
+
+        <div class="field">
+          <label>Единицы измерения</label>
+
+          <select class="ui fluid dropdown" v-model="selectedUnit">
+            <option v-for="unit in units" :value="unit">{{ unit.name }}</option>
+          </select>
+        </div>
+
+        <div class="ui divider"></div>
+
+        <div class="ui positive message" v-if="selectedMaterial">
+          <h5>Подача: {{ feedrate() }} {{ selectedUnit.name }}</h5>
+          <h5>Заглубление: {{ depth() }} мм</h5>
+        </div>
+
+        <div class="ui negative message" v-else>
+          <h5>Материал не выбран</h5>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
