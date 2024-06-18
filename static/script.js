@@ -147,7 +147,7 @@ const application = Vue.createApp({
       if (this.selectedMaterial !== null) {
         const value = this.cutterDiameter * this.selectedMaterial.depth;
 
-        return value.toFixed(1);
+        return value.toFixed(3);
       } else {
         return "~";
       }
