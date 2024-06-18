@@ -1,4 +1,4 @@
-# Safe Pin Usage
+# FeedRate Calculator
 
 Simple feed-rate calculator.
 
